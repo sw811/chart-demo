@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>eharts-demo</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+    <link href="http://www.baidu.com/favicon.ico" rel="shortcut icon">
+    <link rel="stylesheet" href="/src/index.css">
+    <script src="http://s1.bdstatic.com/r/www/cache/static/jquery/jquery-1.10.2.min.js"></script>
+    <script src="http://s1.bdstatic.com/r/www/cache/ecom/esl/2-0-6/esl.js"></script>
+
+     <script src="./dep/echarts/3.3.1/src/echarts.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="tool-bars">
+            <div class="month-btn">按月展示</div>
+            <div class="week-btn">按周展示</div>
+            <div class="day-btn">按天展示</div>
+        </div>
+        <div id="table-content"></div>
+    </div>
+
+
+    <script>
+
+    require.config({
+        baseUrl: '.',
+        paths: {
+            'jquery': 'http://s1.bdstatic.com/r/www/cache/static/jquery/jquery-1.10.2.min'
+        },
+        packages: [
+        {
+            'name': 'echarts',
+            'location': './dep/echarts/3.3.1/src',
+            'main': 'echarts'
+        },
+        {
+            'name': 'zrender',
+            'location': './dep/zrender/3.2.1/src',
+            'main': 'zrender'
+        }]
+    });
+
+    </script>
+
+
+    <script>
+    require(['src/main'], function (m) {
+        m.init();
+    });
+    </script>
+</body>
+</html>
