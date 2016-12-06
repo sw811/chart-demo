@@ -20,6 +20,7 @@ define(
          * @param  {Object} data 未处理的全部数据
          */
         config.monthCallback = function () {
+            this.currentFlag = 1;
             var result = this.getMonthData();
             this.renderTable(result);
         };
@@ -30,6 +31,7 @@ define(
          * @return {Array} 周粒度数据
          */
         config.getWeekData = function () {
+
             var data = this.data;
             var values = [], counts = [];
             data.forEach(function (item) {
@@ -61,6 +63,7 @@ define(
          * @return {Array} 月粒度数据
          */
         config.getMonthData = function () {
+
             var data = this.data;
             var values = [], counts = [];
             data.forEach(function (item) {
@@ -92,6 +95,7 @@ define(
          * @param  {Object} data 未处理的全部数据
          */
         config.weekCallback = function () {
+            this.currentFlag = 2;
             var result = this.getWeekData();
             this.renderTable(result);
         };
@@ -179,8 +183,10 @@ define(
          * @param  {Object} data 未处理的全部数据
          */
         config.dayCallback = function () {
+            this.currentFlag = 0;
             this.renderTable(this.data);
         };
+
 
         /**
          * 生成年月日切换按钮的dom
@@ -282,7 +288,28 @@ define(
                     showSymbol: false
                 }]
             };
+            this.getCurrentData();
             myChart.setOption(option);
+        };
+
+        /**
+         * 获取当前渲染的数据
+         *
+         * @param  {Object} data 当前的数据
+         * @public
+         */
+        config.getCurrentData = function () {
+            var data = this.data;
+            if (this.currentFlag === 0) {
+                data = this.data;
+            }
+            else if (this.currentFlag === 1 ) {
+                data = this.getMonthData();
+            }
+            else {
+                data = this.getWeekData();
+            }
+            return data;
         };
 
         /**
@@ -293,9 +320,12 @@ define(
             var myChart = echarts.init(document.getElementById('table-content'));
             myChart.showLoading();
             $.get('mock/textTwo.json', function (data) {
-                myChart.hideLoading();
-                me.renderTable(data);
                 me.data = data;
+                me.currentFlag = 0;
+                myChart.hideLoading();
+
+                me.renderTable(data);
+
                 // 按月展示事件绑定
                 $('.wrapper').on('click', '.month-btn', function () {
                     me.monthCallback();
