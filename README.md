@@ -1,1 +1,1 @@
-# magnifier
+# chart-demo
