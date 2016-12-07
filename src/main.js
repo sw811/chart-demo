@@ -24,6 +24,8 @@ define(
          * @param  {Object} data 未处理的全部数据
          */
         config.monthCallback = function () {
+            $('.tool-bars').find('.btn-checked').removeClass('btn-checked');
+            $('.month-btn').addClass('btn-checked');
             this.currentFlag = 1;
             var result = this.getMonthData();
             this.renderTable(result);
@@ -99,6 +101,8 @@ define(
          * @param  {Object} data 未处理的全部数据
          */
         config.weekCallback = function () {
+            $('.tool-bars').find('.btn-checked').removeClass('btn-checked');
+            $('.week-btn').addClass('btn-checked');
             this.currentFlag = 2;
             var result = this.getWeekData();
             this.renderTable(result);
@@ -187,6 +191,8 @@ define(
          * @param  {Object} data 未处理的全部数据
          */
         config.dayCallback = function () {
+            $('.tool-bars').find('.btn-checked').removeClass('btn-checked');
+            $('.day-btn').addClass('btn-checked');
             this.currentFlag = 0;
             this.renderTable(this.data);
         };
