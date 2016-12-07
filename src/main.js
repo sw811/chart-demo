@@ -36,12 +36,12 @@ define(
             var values = [], counts = [];
             data.forEach(function (item) {
                 var reg = new RegExp('[年月日]');
-                var time = item.time;
+                var time = item.x;
                 if (reg.test(time)) {
                     time = changeStr(time);
                 }
                 var week = getWeekNumber(time);
-                values[week] = (values[week] || 0) + (+item.value);
+                values[week] = (values[week] || 0) + (+item.y);
                 counts[week] = (counts[week] || 0) + 1;
             });
             var result = [];
@@ -49,8 +49,8 @@ define(
             for (var i = 0; i < 53; i++) {
                 if (counts[i]) {
                     result.push({
-                        time: '第' + i + '周',
-                        value: values[i] / counts[i]
+                        x: '第' + i + '周',
+                        y: values[i] / counts[i]
                     });
                 }
             }
@@ -68,21 +68,21 @@ define(
             var values = [], counts = [];
             data.forEach(function (item) {
                 var reg = new RegExp('[年月日]');
-                var time = item.time;
+                var time = item.x;
                 if (reg.test(time)) {
                     time = changeStr(time);
                 }
                 var month = new Date(time).getMonth();
 
-                values[month] = (values[month] || 0) + (+item.value);
+                values[month] = (values[month] || 0) + (+item.y);
                 counts[month] = (counts[month] || 0) + 1;
             });
             var result = [];
             for (var i = 0; i < 12; i++) {
                 if (counts[i]) {
                     result.push({
-                        time: i + 1 + '月',
-                        value: values[i] / counts[i]
+                        x: i + 1 + '月',
+                        y: values[i] / counts[i]
                     });
                 }
             }
@@ -211,8 +211,6 @@ define(
          * @param  {Object} data 处理后的数据
          */
         config.renderTable = function (data) {
-            var me = this;
-            var myChart = echarts.init(document.getElementById('table-content'));
             var option = {
                 title: {
                     text: 'chart-demo',
@@ -249,7 +247,7 @@ define(
                 xAxis: {
                     type: 'category',
                     data: data.map(function (item) {
-                        return item.time;
+                        return item.x;
                     }),
                     axisLabel: {
                         formatter: function (value, idx) {
@@ -276,7 +274,7 @@ define(
                 series: [{
                     type: 'line',
                     data: data.map(function (item) {
-                        return item.value;
+                        return item.y;
                     }),
                     hoverAnimation: false,
                     symbolSize: 6,
@@ -289,7 +287,7 @@ define(
                 }]
             };
             this.getCurrentData();
-            myChart.setOption(option);
+            this.myChart.setOption(option);
         };
 
         /**
@@ -317,12 +315,12 @@ define(
          */
         config.init = function () {
             var me = this;
-            var myChart = echarts.init(document.getElementById('table-content'));
-            myChart.showLoading();
+            this.myChart = echarts.init(document.getElementById('table-content'));
+            this.myChart.showLoading();
             $.get('mock/textTwo.json', function (data) {
                 me.data = data;
                 me.currentFlag = 0;
-                myChart.hideLoading();
+                me.myChart.hideLoading();
 
                 me.renderTable(data);
 
