@@ -8,9 +8,13 @@ define(
 
         var $ = require('jquery');
         var echarts = require('echarts');
+        var markLineExtension = require('markLine');
         require('echarts/chart/line');
         require('echarts/component/toolbox');
         require('echarts/component/legend');
+        require('echarts/component/markLine');
+        require('echarts/component/markPoint');
+        require('echarts/component/markArea');
 
         var config = {};
 
@@ -211,6 +215,9 @@ define(
          * @param  {Object} data 处理后的数据
          */
         config.renderTable = function (data) {
+            var ydata = data.map(function (item) {
+                        return item.y;
+                    });
             var option = {
                 title: {
                     text: 'chart-demo',
@@ -273,9 +280,7 @@ define(
                 },
                 series: [{
                     type: 'line',
-                    data: data.map(function (item) {
-                        return item.y;
-                    }),
+                    data: ydata,
                     hoverAnimation: false,
                     symbolSize: 6,
                     itemStyle: {
@@ -286,6 +291,7 @@ define(
                     showSymbol: false
                 }]
             };
+            this.echartsOptions = option;
             this.getCurrentData();
             this.myChart.setOption(option);
         };
@@ -336,6 +342,13 @@ define(
                 // 按天展示事件绑定
                 $('.wrapper').on('click', '.day-btn', function () {
                     me.dayCallback();
+                });
+
+                markLineExtension.init({
+                    toolBar: $('.tool-bars')[0],
+                    data: me.getCurrentData(),
+                    echartsOptions: me.echartsOptions,
+                    echarts: me.myChart
                 });
             });
 

@@ -4,7 +4,8 @@
     }
     .month-btn,
     .day-btn,
-    .week-btn {
+    .week-btn,
+    [data-role=mark-line-btn] {
         float: left;
         width: 100px;
         height: 20px;
@@ -14,6 +15,7 @@
         color: #fff;
         text-align: center;
         line-height: 20px;
+        cursor: pointer;
     }
     #table-content {
         width: 900px;
@@ -23,5 +25,9 @@
         background-color: #333;
         width: 20px;
         height: 20px;
+    }
+
+    [data-role=mark-line-btn] {
+        background-color: #f59fbc;
     }
 }

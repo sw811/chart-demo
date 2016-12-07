@@ -26,19 +26,19 @@
     <script>
 
     require.config({
-        baseUrl: '.',
+        baseUrl: 'src',
         paths: {
             'jquery': 'http://s1.bdstatic.com/r/www/cache/static/jquery/jquery-1.10.2.min'
         },
         packages: [
         {
             'name': 'echarts',
-            'location': './dep/echarts/3.3.1/src',
+            'location': '../dep/echarts/3.3.1/src',
             'main': 'echarts'
         },
         {
             'name': 'zrender',
-            'location': './dep/zrender/3.2.1/src',
+            'location': '../dep/zrender/3.2.1/src',
             'main': 'zrender'
         }]
     });
@@ -47,7 +47,7 @@
 
 
     <script>
-    require(['src/main'], function (m) {
+    require(['main'], function (m) {
         m.init();
     });
     </script>
