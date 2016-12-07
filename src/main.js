@@ -317,6 +317,7 @@ define(
             var me = this;
             this.myChart = echarts.init(document.getElementById('table-content'));
             this.myChart.showLoading();
+
             $.get('mock/textTwo.json', function (data) {
                 me.data = data;
                 me.currentFlag = 0;
