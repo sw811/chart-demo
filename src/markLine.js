@@ -14,7 +14,12 @@ define(function () {
     exports.markLineDraw = function (type) {
         var config = this.getLineConfigs(type);
 
-        this.markLineData[type] = config;
+        if (this.markLineData[type] == null) {
+            this.markLineData[type] = config;
+        }
+        else {
+            this.markLineData[type] = null;
+        }
 
         this.renderOptions();
     }
@@ -22,18 +27,25 @@ define(function () {
     exports.renderOptions = function () {
         var data = [];
         $.each(this.markLineData, function (key, value) {
-            data.push(value);
+            if (value != null) {
+                data.push(value);
+            }
         });
 
         var options = this.echarts.getOption();
 
-        // options['series'][0]['data'] = [3,4,6,7,1,4];
-        options['series'][0].markLine = {
-            data: data
-        };
+        if (data.length !== 0) {
+            options['series'][0].markLine = {
+                data: data
+            };
+        }
+        else {
+            options['series'][0].markLine = null;
+        }
+
         // debugger;
+        console.log(options);
         this.echarts.setOption(options);
-        console.log(this.echarts.getOption());
     }
 
     exports.getLineConfigs = function (type) {
@@ -72,7 +84,7 @@ define(function () {
         var me = this;
         $('[data-role=mark-line-btn]').on('click', function () {
             var btn = $(this);
-            // btn.attr('data-status', 'close');
+            btn.toggleClass('active');
             var type = btn.attr('data-type');
             me.markLineDraw(type);
         });
